@@ -1,4 +1,3 @@
-
 const GetProvider = async () => {
     const provider = await detectEthereumProvider();
     return provider;
@@ -32,19 +31,17 @@ const GetCurrentProvider = async () => {
 }
 
 const getRequestContract = async (web3) => {
-    const data = await $.getJSON("./contractsJSON/request.json");
+    console.log("Web3 value is",web3)
+    const data = await $.getJSON('../contractsJSON/request.json');
+
+    console.log("data value is",data)
     const netId = await web3.eth.net.getId();
-    console.log("Netid", netId)
+    console.log("Netid",netId);
+
+    const requestContract = new web3.eth.Contract(
+      data,
+      "0x045687b5eda47d9c38d2ce79d35f3179b43f2f37"
+    );
+    console.log("request Contract is",requestContract)
+    return requestContract;
 };
-
-const mainExecute = async () => {
-    if ((await GetCurrentProvider()) !== "xinpay") {
-
-    } else {
-        const web3 = await getWeb3();
-        console.log("web3 value is",web3)
-        getRequestContract(web3);
-    }
-}
-
-mainExecute();

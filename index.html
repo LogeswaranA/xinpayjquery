@@ -11,14 +11,23 @@
 
     <h2></h2>
     <form id="form">
-        <input id="input1" type="text"/>
-        <input type="submit" id="purchase" value="purchase"/>
+        <label for="html">Oracle Contract Address</label>
+        <input id="oracle" type="text"/><br>
+        <label for="html">Api Endpoint</label>
+        <input id="endpoint" type="text"/><br>
+        <label for="html">Symbol</label>
+        <input id="symbol" type="text"/><br>
+        <label for="html">Job Id</label>
+        <input id="jobid" type="text"/>
+        <input type="submit" id="submitrequest" value="submitrequest"/><br>
+        <input type="submit" id="showprice" value="showprice"/>
     </form>
 
     <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="node_modules/xdc3/dist/web3.min.js"></script>
     <script type="text/javascript" src="node_modules/@metamask/detect-provider/dist/index.js"></script>
-
     <script type ="text/javascript" src="src/util.js"></script>
+    <script type="text/javascript" src ="src/index.js"></script>
+
 </body>
 </html>
