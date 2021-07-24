@@ -21,13 +21,49 @@
         <input id="jobid" type="text"/>
         <input type="submit" id="submitrequest" value="submitrequest"/><br>
         <input type="submit" id="showprice" value="showprice"/>
+        <textarea id="contract" name="contract" rows="10" cols="50">
+        </textarea><br>
+        <input type="button" id="compile1" value="compile1"/><br>
+        <label for="html">ABI</label>
+        <input id="abi" type="text"/><br>
+        <label for="html">Bytecode</label>
+        <input id="bytecode" type="text"/><br>
+        <input type="submit" id="deploy" value="deploy"/><br>
+
     </form>
 
     <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="node_modules/xdc3/dist/web3.min.js"></script>
     <script type="text/javascript" src="node_modules/@metamask/detect-provider/dist/index.js"></script>
+    <!-- <script type="text/javascript" src="node_modules/solc/solcjs"></script> -->
+    <script src="http://code.dappbench.com/browser-solc.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="node_modules/bro-fs/dist/bro-fs.js"></script>
+    <!-- <script src="https://unpkg.com/bro-fs"></script> -->
     <script type ="text/javascript" src="src/util.js"></script>
     <script type="text/javascript" src ="src/index.js"></script>
+    <script type="text/javascript">
+
+     $("#compile1").on("click", async (e) => {
+         var solTemp=$("#contract").val();
+        $.ajax({
+            url : "http://localhost:5000/compile",
+            type: "POST",
+            data : {solCode:`${solTemp}`,network:'Apothem'},
+            success: function(data, textStatus, jqXHR)
+            {
+                console.log("data value is ",data);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+        
+            }
+        });
+     })
+
+   
+
+    </script>
+
 
 </body>
 </html>

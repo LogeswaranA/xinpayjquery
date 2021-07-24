@@ -11,6 +11,35 @@ const showCurrentPrice = async (web3, contract, accounts) => {
     });
 };
 
+const deployContract = async (web3, accounts) => {
+    let abi, bytecode;
+    $("#abi").on("change", (e) => {
+        abi = e.target.value;
+    });
+    $("#bytecode").on("change", (e) => {
+        bytecode = e.target.value;
+    });
+    $("#deploy").on("click", async (e) => {
+        e.preventDefault();
+        let deploy_contract = new web3.eth.Contract(JSON.parse(abi));
+        let payload = {
+            data: bytecode
+        }
+        let parameter = {
+            from: accounts[0],
+            gas: web3.utils.toHex(800000),
+            gasPrice: web3.utils.toHex(web3.utils.toWei('30', 'gwei'))
+        }
+        await deploy_contract.deploy(payload).send(parameter, (err, transactionHash) => {
+            console.log('Transaction Hash :', transactionHash);
+        }).on('confirmation', function (confirmationNumber, receipt) {
+            console.log("receipt", confirmationNumber, receipt)
+            }).then(function (newContractInstance) {
+                    console.log(newContractInstance) // instance with the new contract address
+            });
+    });
+};
+
 const requestPrice = async (web3, contract, accounts) => {
     let oracle, endpoint, symbol, jobid;
     $("#oracle").on("change", (e) => {
@@ -59,6 +88,8 @@ async function mainFunc() {
 
     await showCurrentPrice(web3, requestContract, accounts);
     await requestPrice(web3, requestContract, accounts);
+    await deployContract(web3, accounts);
+
 
 }
 

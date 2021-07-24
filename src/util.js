@@ -8,6 +8,8 @@ const getWeb3 = async () => {
     return xdc3;
 }
 
+
+
 const GetChainId = async () => {
     let xdc3 = new Web3(await GetProvider());
     console.log("tetjsothaosdg", xdc3.eth.net.getId())
@@ -45,3 +47,5 @@ const getRequestContract = async (web3) => {
     console.log("request Contract is",requestContract)
     return requestContract;
 };
+
+// compileContract();
