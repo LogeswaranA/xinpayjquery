@@ -72,6 +72,49 @@ const requestPrice = async (web3, contract, accounts) => {
     });
 };
 
+
+const publishPrice = async (web3,accounts) => {
+    let oracle, endpoint, symbol, jobid, abi, contract;
+    $("#abi").on("change", (e) => {
+        abi = e.target.value;
+    });
+    $("#contract").on("change", (e) => {
+        contract = e.target.value;
+    });
+    $("#oracle").on("change", (e) => {
+        oracle = e.target.value;
+    });
+    $("#endpoint").on("change", (e) => {
+        endpoint = e.target.value;
+    });
+    $("#symbol").on("change", (e) => {
+        symbol = e.target.value;
+    });
+    $("#jobid").on("change", (e) => {
+        jobid = e.target.value;
+    });
+    $("#submitrequest").on("click", async (e) => {
+        console.log("Iam at requestPrice")
+        e.preventDefault();
+        
+        const reqContract = new web3.eth.Contract(
+            abi,
+            contract
+          );
+        const nonce = await web3.eth.getTransactionCount(accounts[0]);
+        console.log("nonce value is", nonce)
+        const gasPrice = await web3.eth.getGasPrice();
+        console.log("gasPrice value is", gasPrice)
+        await reqContract.methods
+            .requestPrice(oracle, jobid, endpoint, symbol)
+            .send({ from: accounts[0], gas: "210000" })
+            .on("transactionHash", function (transactionHash) {
+                console.log("transactionhahs", transactionHash)
+            })
+    });
+};
+
+
 async function mainFunc() {
     const web3 = await getWeb3();
     console.log("Web3", web3);
@@ -89,6 +132,7 @@ async function mainFunc() {
     await showCurrentPrice(web3, requestContract, accounts);
     await requestPrice(web3, requestContract, accounts);
     await deployContract(web3, accounts);
+    await publishPrice(web3,accounts);
 
 
 }
